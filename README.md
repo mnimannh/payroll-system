@@ -7,31 +7,25 @@ It allows CRUD operations for employees and calculates monthly net salary using 
 ---
 
 ## 🚀 Tech Stack
-
 - Backend: Node.js (Express.js)
 - Frontend: EJS (Server-side rendering)
-- Database: MySQL
+- Database: MySQL 8.0
 - Containerization: Docker + Docker Compose
 - Language: JavaScript (ES6)
 
 ---
 
 ## 🏗️ Architecture
+Browser → Routes (Controller) → Model (Business Logic + DB) → MySQL Database → Views (EJS)
 
-This project follows a simple MVC structure:
-
-Browser → Routes (Controller) → Model (Business Logic + DB) → SQLite Database → Views (EJS)
-
-### Layers:
 - Routes → Handle HTTP requests (CRUD + payslip)
-- Models → Database queries + payroll calculation
+- Models → Database queries + payroll logic
 - Views → UI pages rendered using EJS
-- Database: MySQL 8.0 (running in a separate Docker container)
+- Database → MySQL in Docker container
 
 ---
 
-## 📊 Payroll Formula (Fixed Requirement)
-
+## 📊 Payroll Formula
 Gross Pay = Basic Salary + Allowance  
 Tax (5%) = Gross Pay × 0.05  
 Net Pay = Gross Pay − Tax  
@@ -39,60 +33,62 @@ Net Pay = Gross Pay − Tax
 ---
 
 ## ⚙️ Features
-
 - Create employee
 - Read employee list
 - Update employee details
 - Delete employee
-- View payslip with salary breakdown
+- View payslip with breakdown
 
 ---
 
-## 🐳 Run with Docker (Recommended)
+## 🐳 Run with Docker
 
-1.Ensure you have an .env file in the root directory based on the following template:
+### 1. Create .env
+DB_HOST=db  
+DB_USER=root  
+DB_PASSWORD=your_secure_password_here  
+DB_NAME=payroll  
 
---Code snippet--
-
-DB_HOST=db
-DB_USER=root
-DB_PASSWORD=your_secure_password_here
-DB_NAME=payroll
-MYSQL_ROOT_PASSWORD=your_secure_root_password_here
-MYSQL_DATABASE=payroll
-
-2.Build and start the containers:
-
-docker compose up --build
-Access the application at: http://localhost:3000/employees
+MYSQL_ROOT_PASSWORD=your_secure_root_password_here  
+MYSQL_DATABASE=payroll  
 
 ---
 
-## 💻 Run Locally (Without Docker)
+### 2. Start project
+docker compose up --build  
 
+Open:
+http://localhost:3000/employees  
+
+---
+
+## 💻 Run Locally
 npm install  
 node app.js  
 
-Then open:
-http://localhost:3000/employees
+Open:
+http://localhost:3000/employees  
 
 ---
 
-## 🔄 Refreshing the Application
+## 🔄 Refresh / Reset
 
-1.For Code Changes: docker compose up --build
-2.For Database/Config Changes: docker compose down -v && docker compose up --build
-(Warning: down -v will delete all existing data and reset the database.)
+Rebuild:
+docker compose up --build  
 
+Full reset (WILL DELETE DB):
+docker compose down -v  
+docker compose up --build  
+
+---
 
 ## 📁 Project Structure
-
 payroll-system/
 ├── app.js
-├── schema.sql           # Database initialization script
+├── schema.sql
 ├── Dockerfile
 ├── docker-compose.yml
-├── .env                 # Environment configuration
+├── .env
 ├── package.json
 ├── /models
 │   └── employeeModel.js
@@ -105,14 +101,8 @@ payroll-system/
 
 ---
 
-## 📌 Assumptions ⚠️ Notes
-
---Database: The application expects a MySQL instance. The schema.sql file in the project root is automatically executed by the MySQL container on the first startup.
---Environment: Database connection details are injected via environment variables.
---Persistence: Data is persisted using Docker volumes; use docker compose down -v if you need to wipe the database and start fresh.
---Permissions: The root user is configured to handle connections from the application container within the internal Docker network.
-
-
-
-
-
+## 📌 Notes
+- MySQL runs in Docker container
+- schema.sql auto-runs on first startup
+- Data persists using Docker volumes
+- Use docker compose down -v to fully reset database
