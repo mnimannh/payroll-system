@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Management</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+    }
+    body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 40px; background-color: var(--bg); }
+    .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    
+    .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+    
+    #searchInput { padding: 10px 15px; width: 300px; border: 1px solid #cbd5e1; border-radius: 6px; }
+    
+    .btn { padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; border: none; cursor: pointer; display: inline-block; }
+    .btn-add { background: var(--success); color: white; }
+    .btn-edit { background: var(--primary); color: white; }
+    .btn-delete { background: var(--danger); color: white; }
+    .btn-payslip { background: #64748b; color: white; }
+    .btn:hover { opacity: 0.9; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th { text-align: left; padding: 15px; background: #f1f5f9; color: #475569; font-weight: 600; }
+    td { padding: 15px; border-bottom: 1px solid #e2e8f0; }
+    tr:hover { background-color: #f8fafc; }
+    .actions { display: flex; gap: 8px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header-section">
+    <h2>Employee Management</h2>
+    <a href="/employees/new" class="btn btn-add">+ Add New Employee</a>
+  </div>
+
+  <input type="text" id="searchInput" placeholder="Search by name..." onkeyup="filterTable()">
+
+  <table id="empTable">
+    <thead>
+      <tr><th>ID</th><th>Name</th><th>Position</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <% employees.forEach(emp => { %>
+        <tr>
+          <td><%= emp.id %></td>
+          <td><%= emp.name %></td>
+          <td><%= emp.position %></td>
+          <td class="actions">
+            <a href="/employees/edit/<%= emp.id %>" class="btn btn-edit">Edit</a>
+            <a href="/employees/delete/<%= emp.id %>" class="btn btn-delete" onclick="return confirm('Delete this employee?')">Delete</a>
+            <a href="/employees/payslip/<%= emp.id %>" class="btn btn-payslip">Payslip</a>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function filterTable() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let rows = document.getElementById("empTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+    for (let i = 0; i < rows.length; i++) {
+      let name = rows[i].getElementsByTagName("td")[1].innerText.toLowerCase();
+      rows[i].style.display = name.includes(input) ? "" : "none";
+    }
+  }
+</script>
+</body>
+</html>

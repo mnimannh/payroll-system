@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payslip | <%= employee.name %></title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px; display: flex; justify-content: center; color: #334155; }
+    .slip { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); width: 100%; max-width: 450px; border-top: 6px solid #2563eb; }
+    
+    h2 { margin-top: 0; color: #1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
+    .employee-info { margin-bottom: 25px; }
+    .employee-info p { margin: 5px 0; color: #64748b; }
+    
+    .row { display: flex; justify-content: space-between; margin: 12px 0; font-size: 16px; }
+    .row.total { font-size: 18px; font-weight: 700; color: #0f172a; margin-top: 20px; padding-top: 15px; border-top: 2px solid #e2e8f0; }
+    
+    hr { border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0; }
+    
+    .btn-back { display: inline-block; margin-top: 30px; padding: 10px 20px; background: #f1f5f9; color: #475569; text-decoration: none; border-radius: 6px; font-weight: 600; transition: 0.2s; }
+    .btn-back:hover { background: #e2e8f0; }
+  </style>
+</head>
+<body>
+
+<div class="slip">
+  <h2>Payslip</h2>
+  <div class="employee-info">
+    <p><strong>Name:</strong> <%= employee.name %></p>
+    <p><strong>Position:</strong> <%= employee.position %></p>
+  </div>
+  
+  <div class="row"><span>Basic Salary</span> <span>RM <%= employee.basic_salary %></span></div>
+  <div class="row"><span>Allowance</span> <span>RM <%= employee.allowance %></span></div>
+  
+  <hr>
+  
+  <div class="row"><span>Gross Pay</span> <span>RM <%= payroll.gross.toFixed(2) %></span></div>
+  <div class="row" style="color: #dc2626;"><span>Tax (5%)</span> <span>- RM <%= payroll.tax.toFixed(2) %></span></div>
+  
+  <div class="row total">
+    <span>Net Pay</span> 
+    <span>RM <%= payroll.net.toFixed(2) %></span>
+  </div>
+
+  <a href="/employees" class="btn-back">← Back to list</a>
+</div>
+
+</body>
+</html>

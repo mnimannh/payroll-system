@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= employee ? 'Edit' : 'Add' %> Employee</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f8fafc; padding: 40px; display: flex; justify-content: center; }
+    .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+    label { display: block; margin-bottom: 5px; font-weight: 600; color: #475569; }
+    input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; }
+    button { width: 100%; background: #2563eb; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: 600; }
+    button:hover { background: #1d4ed8; }
+    .error { color: #dc2626; font-size: 14px; margin-bottom: 15px; display: none; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2><%= employee ? 'Edit Employee' : 'Add Employee' %></h2>
+  
+  <div id="errorMessage" class="error"></div>
+
+  <form id="empForm" method="POST" action="<%= employee ? '/employees/update/' + employee.id : '/employees/create' %>">
+    <label>Name:</label>
+    <input type="text" name="name" id="name" value="<%= employee ? employee.name : '' %>" required>
+    
+    <label>Position:</label>
+    <input type="text" name="position" id="position" value="<%= employee ? employee.position : '' %>" required>
+    
+    <label>Basic Salary:</label>
+    <input type="number" step="0.01" name="basic_salary" id="basic_salary" value="<%= employee ? employee.basic_salary : '' %>" min="0.01" required>
+    
+    <label>Allowance:</label>
+    <input type="number" step="0.01" name="allowance" id="allowance" value="<%= employee ? employee.allowance : '' %>" min="0" required>
+    
+    <button type="submit">Save Employee</button>
+  </form>
+  
+  <p style="text-align:center; margin-top: 20px;"><a href="/employees">Back to list</a></p>
+</div>
+
+<script>
+  document.getElementById('empForm').addEventListener('submit', function(e) {
+    const name = document.getElementById('name').value.trim();
+    const position = document.getElementById('position').value.trim();
+    const salary = parseFloat(document.getElementById('basic_salary').value);
+    const allowance = parseFloat(document.getElementById('allowance').value);
+    const errorDiv = document.getElementById('errorMessage');
+
+    if (name === "" || position === "") {
+      e.preventDefault();
+      errorDiv.innerText = "Name and Position cannot be empty.";
+      errorDiv.style.display = "block";
+    } else if (salary <= 0) {
+      e.preventDefault();
+      errorDiv.innerText = "Basic Salary must be greater than 0.";
+      errorDiv.style.display = "block";
+    } else if (allowance < 0) {
+      e.preventDefault();
+      errorDiv.innerText = "Allowance cannot be negative.";
+      errorDiv.style.display = "block";
+    }
+  });
+</script>
+
+</body>
+</html>
