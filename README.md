@@ -82,25 +82,6 @@ docker compose up --build
 
 ---
 
-## 📁 Project Structure
-payroll-system/
-├── app.js
-├── schema.sql
-├── Dockerfile
-├── docker-compose.yml
-├── .env
-├── package.json
-├── /models
-│   └── employeeModel.js
-├── /routes
-│   └── employees.js
-└── /views
-    ├── list.ejs
-    ├── form.ejs
-    └── payslip.ejs
-
----
-
 ## 📌 Notes
 - MySQL runs in Docker container
 - schema.sql auto-runs on first startup
